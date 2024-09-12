@@ -1,0 +1,30 @@
+{
+  "schemaVersion": 1,
+  "id": "townui",
+  "version": "${version}",
+  "name": "TownUI",
+  "description": "",
+  "authors": [],
+  "contact": {},
+  "license": "All-Rights-Reserved",
+  "icon": "assets/townui/icon.png",
+  "environment": "client",
+  "entrypoints": {
+    "client": [
+      "ru.mentola.townui.TownUI",
+      "ru.mentola.example.ExampleMod"
+    ],
+    "main": [
+      "ru.mentola.townui.TownUI",
+      "ru.mentola.example.ExampleMod"
+    ]
+  },
+  "mixins": [
+    "townui.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=${loader_version}",
+    "fabric": "*",
+    "minecraft": "${minecraft_version}"
+  }
+}
