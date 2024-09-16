@@ -1,5 +1,6 @@
 package ru.mentola.townui.core.screen;
 
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.text.Text;
@@ -24,6 +25,11 @@ public final class TownScreen extends Screen {
     public boolean mouseClicked(double mouseX, double mouseY, int button) {
         layer.mouseClicked(new Mouse(mouseX, mouseY), button == 0 ? MouseButton.LEFT : button == 1 ? MouseButton.RIGHT : button == 2 ? MouseButton.MIDDLE : MouseButton.UNKNOWN);
         return super.mouseClicked(mouseX, mouseY, button);
+    }
+
+    @Override
+    public void resize(MinecraftClient client, int width, int height) {
+        layer.resize();
     }
 
     @Override
