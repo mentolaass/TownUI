@@ -11,12 +11,10 @@
   "environment": "client",
   "entrypoints": {
     "client": [
-      "ru.mentola.townui.TownUI",
-      "ru.mentola.example.ExampleMod"
+      "ru.mentola.townui.TownUI"
     ],
     "main": [
-      "ru.mentola.townui.TownUI",
-      "ru.mentola.example.ExampleMod"
+      "ru.mentola.townui.TownUI"
     ]
   },
   "mixins": [

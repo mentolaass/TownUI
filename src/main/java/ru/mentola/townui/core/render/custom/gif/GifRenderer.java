@@ -13,8 +13,8 @@ import java.awt.*;
 public final class GifRenderer {
     private final GifData gifData;
 
-    public GifRenderer(String pathToGif) {
-        this.gifData = GifReader.read(pathToGif);
+    public GifRenderer(Identifier id) {
+        this.gifData = GifReader.read(id);
     }
 
     public void render(DrawContext context, Mouse mouse, float delta, double x, double y, double width, double height) {

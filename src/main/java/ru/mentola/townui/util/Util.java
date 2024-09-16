@@ -1,7 +1,10 @@
 package ru.mentola.townui.util;
 
 import lombok.experimental.UtilityClass;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.texture.NativeImage;
+import net.minecraft.client.texture.NativeImageBackedTexture;
+import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.Nullable;
 import ru.mentola.townui.core.component.Component;
 import ru.mentola.townui.core.mouse.Mouse;
@@ -11,6 +14,7 @@ import ru.mentola.townui.core.positioning.VerticalAlignment;
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.InputStream;
+import java.util.UUID;
 
 @UtilityClass
 public class Util {
@@ -36,6 +40,13 @@ public class Util {
             case CENTER -> start + paddingStart + ((totalSize - paddingStart - paddingEnd) - contentSize) / 2;
             case BOTTOM -> start + totalSize - paddingEnd - contentSize;
         };
+    }
+
+    public Identifier registerDynamically(BufferedImage image) {
+        return MinecraftClient.getInstance()
+                .getTextureManager()
+                .registerDynamicTexture(UUID.randomUUID().toString(),
+                        new NativeImageBackedTexture(Util.bufferedImgToNative(image)));
     }
 
     @Nullable
@@ -64,5 +75,11 @@ public class Util {
             }
         }
         return nativeImage;
+    }
+
+    public String convertIdentifierToPath(Identifier identifier) {
+        String path = identifier.getPath();
+        path = "/assets/" + identifier.getNamespace() + (!path.startsWith("/") ? "/" : "") + path;
+        return path;
     }
 }

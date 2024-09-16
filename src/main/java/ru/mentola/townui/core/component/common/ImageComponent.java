@@ -50,17 +50,17 @@ public final class ImageComponent extends Component {
     public void render(DrawContext context, Mouse mouse, float delta) {
         if (image != null) {
             if (image.getIdentifier().getPath().endsWith(".gif")) {
-                GifRenderer renderer = Cache.query(Cache.CACHED_GIF_RENDERERS, (gifRenderer) -> gifRenderer.getGifData().getPath().equals(image.getIdentifier().getPath()));
+                GifRenderer renderer = Cache.query(Cache.CACHED_GIF_RENDERERS, (gifRenderer) -> gifRenderer.getGifData().getPath().equals(Util.convertIdentifierToPath(image.getIdentifier())));
                 if (renderer == null) {
-                    renderer = TownUIProvider.getAPI().createGifRenderer(image.getIdentifier().getPath());
+                    renderer = TownUIProvider.getAPI().createGifRenderer(image.getIdentifier());
                     Cache.CACHED_GIF_RENDERERS.add(renderer);
                 }
                 renderer.render(context, mouse, delta, this.getX(), this.getY(), this.getWidth(), this.getHeight());
                 if (this.debug) renderer.drawDebugInfo(context, renderer.getGifData().getFrames().get(renderer.getGifData().getCurrentFrameIndex()), this.getX(), this.getY(), this.getWidth(), this.getHeight());
             } else {
-                Pair<String, Identifier> img = Cache.query(Cache.CACHED_DYNAMICALLY_IMAGES, (img_) -> img_.getLeft().equals(image.getIdentifier().getPath()));
+                Pair<String, Identifier> img = Cache.query(Cache.CACHED_DYNAMICALLY_IMAGES, (img_) -> img_.getLeft().equals(Util.convertIdentifierToPath(image.getIdentifier())));
                 if (img == null) {
-                    img = new Pair<>(image.getIdentifier().getPath(), registerDynamically(Util.bufferedImgFromIs(ResourceUtil.getISResource(image.getIdentifier().getPath()))));
+                    img = new Pair<>(image.getIdentifier().getPath(), Util.registerDynamically(Util.bufferedImgFromIs(ResourceUtil.getISResource(Util.convertIdentifierToPath(image.getIdentifier())))));
                     Cache.CACHED_DYNAMICALLY_IMAGES.add(img);
                 }
                 context.drawTexture(img.getRight(), (int) this.getX(), (int) this.getY(), 0, 0, (int) this.getWidth(), (int) this.getHeight(), (int) this.getWidth(), (int) this.getHeight());
@@ -79,12 +79,5 @@ public final class ImageComponent extends Component {
     @Override
     public void keyPressed(int keyCode, int scanCode, int modifiers) {
         super.keyPressed(keyCode, scanCode, modifiers);
-    }
-
-    private Identifier registerDynamically(BufferedImage image) {
-        return MinecraftClient.getInstance()
-                .getTextureManager()
-                .registerDynamicTexture(UUID.randomUUID().toString(),
-                        new NativeImageBackedTexture(Util.bufferedImgToNative(image)));
     }
 }
